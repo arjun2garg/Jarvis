@@ -2,7 +2,11 @@ name: Sync Hevy → Supabase
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # Every 30 minutes
+    # Twice daily: 9am + 9pm America/Chicago.
+    # GitHub Actions cron is UTC-only, so the hour shifts twice a year:
+    #   CDT (Mar–Nov): 14:00 + 02:00 UTC → "0 2,14 * * *"
+    #   CST (Nov–Mar): 15:00 + 03:00 UTC → "0 3,15 * * *"
+    - cron: "0 2,14 * * *"
   workflow_dispatch:          # Allow manual trigger from GitHub UI
 
 jobs:

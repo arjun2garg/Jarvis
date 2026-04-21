@@ -104,7 +104,9 @@ needed; the DB password is only required for `db pull` / `db push`.)
 
 ## Automation
 
-Two GitHub Actions workflows, each running every 30 minutes:
+Two GitHub Actions workflows, each running twice daily at 9am / 9pm
+America/Chicago (`0 2,14 * * *` UTC during CDT — see the comment in each
+workflow for the CST hour shift):
 
 - `.github/workflows/todoist-sync.yml` — runs `sync_todoist.py`
 - `.github/workflows/hevy-sync.yml` — runs `sync_hevy.py`
