@@ -33,3 +33,7 @@ jarvis-sync.log
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+
+# Apple Health exports — personal data, never commit
+HealthAutoExport-*.json
+HealthAutoExport-*.zip

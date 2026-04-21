@@ -30,12 +30,16 @@ REQUIRED_VARS = {
 }
 
 SUPABASE_RESOURCES = [
-    ("raw_todoist",    "landing table"),
-    ("raw_hevy",       "landing table"),
-    ("sync_log",       "utility table"),
-    ("tasks",          "staging view"),
-    ("workouts",       "staging view"),
-    ("exercise_sets",  "staging view"),
+    ("raw_todoist",       "landing table"),
+    ("raw_hevy",          "landing table"),
+    ("raw_apple_health",  "landing table"),
+    ("sync_log",          "utility table"),
+    ("tasks",             "staging view"),
+    ("workouts",          "staging view"),
+    ("exercise_sets",     "staging view"),
+    ("health_metrics",    "staging view"),
+    ("sleep_analysis",    "staging view"),
+    ("health_latest",     "staging view"),
 ]
 
 

@@ -44,12 +44,17 @@ To apply the schema on a fresh Supabase project, see
 
 ## Data sources
 
-| Source  | Script            | Landing      | Staging views                 |
-|---------|-------------------|--------------|-------------------------------|
-| Todoist | `sync_todoist.py` | `raw_todoist`| `tasks`                       |
-| Hevy    | `sync_hevy.py`    | `raw_hevy`   | `workouts`, `exercise_sets`   |
+| Source       | Script / Ingest                        | Landing            | Staging views                                     |
+|--------------|----------------------------------------|--------------------|---------------------------------------------------|
+| Todoist      | `sync_todoist.py`                      | `raw_todoist`      | `tasks`                                           |
+| Hevy         | `sync_hevy.py`                         | `raw_hevy`         | `workouts`, `exercise_sets`                       |
+| Apple Health | `supabase/functions/ingest-health`     | `raw_apple_health` | `health_metrics`, `sleep_analysis`, `health_latest` |
 
-Planned: Apple Health, Cronometer (nutrition), Apple Calendar.
+Apple Health is push-based — the Health Auto Export iOS app POSTs to the
+`ingest-health` Edge Function on a cadence, so there's no pull script. See
+[docs/apple_health.md](docs/apple_health.md) for the app config.
+
+Planned: Cronometer (nutrition), Apple Calendar.
 
 
 ## Commands
@@ -152,9 +157,12 @@ Required repository secrets:
 ├── .github/workflows/
 │   ├── todoist-sync.yml             cron: */30 min
 │   └── hevy-sync.yml                cron: */30 min
+├── supabase/functions/
+│   └── ingest-health/              Apple Health webhook receiver (Deno)
 └── docs/
     ├── mvp.md                       original Todoist build guide
-    └── hevy.md                      Hevy integration guide
+    ├── hevy.md                      Hevy integration guide
+    └── apple_health.md              Apple Health integration guide
 ```
 
 
@@ -163,3 +171,5 @@ Required repository secrets:
 - [docs/mvp.md](docs/mvp.md) — original MVP implementation guide
   (architecture, Todoist setup, Claude Project wiring)
 - [docs/hevy.md](docs/hevy.md) — Hevy schema + sync guide
+- [docs/apple_health.md](docs/apple_health.md) — Apple Health schema, Edge
+  Function, and Health Auto Export setup
