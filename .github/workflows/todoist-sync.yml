@@ -1,0 +1,38 @@
+name: Sync Todoist → Supabase
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # Every 30 minutes
+  workflow_dispatch:          # Allow manual trigger from GitHub UI
+
+jobs:
+  sync:
+    name: Todoist sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run sync
+        run: python sync_todoist.py
+        env:
+          TODOIST_API_KEY:      ${{ secrets.TODOIST_API_KEY }}
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+      - name: Upload sync log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-failure-${{ github.run_id }}
+          path: "*.log"
+          if-no-files-found: ignore
